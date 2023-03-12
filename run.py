@@ -56,8 +56,9 @@ def msg_report(user_msg, groupID):
         #elif len(ID)<=4:
         #    ID = int(ID)
     except Exception:
-        tmp_str = '請檢查 姓名、學號、手機、體溫、狀況 是否有漏填。'       
+        tmp_str = '請檢查 姓名、學號是否有漏填。'       
     else:
+        #reportData[groupID][ID] = user_msg
         reportData[groupID][ID] = user_msg
         tmp_str = str(ID)+'號回報完成。'  
     return tmp_str        
