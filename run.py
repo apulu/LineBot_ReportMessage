@@ -42,8 +42,8 @@ def msg_report(user_msg, groupID):
         if ( # 檢查資料是否有填，字數注意有換行符
             len(user_msg.split('姓名')[-1].split('學號')[0])<3 and
             len(user_msg.split("學號")[-1].split('手機')[0])<3 and 
-            len(user_msg.split('手機')[-1].split('地點')[0])<12 and 
-            len(user_msg.split('地點')[-1].split('收假方式')[0])<3
+            len(user_msg.split('手機')[-1].split('體溫')[0])<3 and 
+            len(user_msg.split('體溫')[-1].split('狀況')[0])<3
             ):
             raise Exception
         # 得到學號
@@ -56,45 +56,35 @@ def msg_report(user_msg, groupID):
         #elif len(ID)<=4:
         #    ID = int(ID)
     except Exception:
-        tmp_str = '姓名、學號、手機、地點，其中一項未填。'       
+        tmp_str = '請檢查 姓名、學號、手機、體溫、狀況 是否有漏填。'       
     else:
         reportData[groupID][ID] = user_msg
-        tmp_str = str(ID)+'號弟兄，回報成功。'  
+        tmp_str = str(ID)+'號回報完成。'  
     return tmp_str        
         
 
 def msg_readme():
     tmp_str = (
-        '回報格式有兩種方法\n'
-        '[1]固定格式。\n'
+        '回報格式\n'
         '----------\n'
         '姓名：\n'
         '學號：\n'
         '手機：\n'
-        '地點：\n'
-        '收假方式：\n'
+        '體溫：\n'
+        '狀況：\n'
         '----------\n'
         '\n'
-        '[2]開頭帶有自訂回報\n'
-        '後帶的訊息皆會直接紀錄\n'
-        '----------\n'
-        '自訂回報\n'
-        '王小明範例訊息\n'
-        '----------\n'
-        '\n'
-        '指令\n' 
+        '可用指令:\n' 
         '----------\n'   
         '•格式\n'
-        '->預設格式範例。\n'
-        '•回報統計\n'
-        '->顯示完成回報的號碼。\n'
-        '•輸出回報\n'
-        '->貼出所有回報，並清空回報紀錄。\n'
+        '->格式範例。\n'
+        '•已報\n'
+        '->列出已回報人員學號。\n'
+        '•輸出\n'
+        '->貼出所有已回報紀錄，並清空回報紀錄。\n'
         '•清空\n'
-        '->可手動清空Data，除錯用。\n'
+        '->可手動清空Data。\n'
         '----------\n' 
-        '效果可參閱此說明\n'
-        'https://github.com/GarrettTW/linebot_reportmessage/blob/master/README.md'
     )
     return tmp_str
 
@@ -102,11 +92,11 @@ def msg_cnt(groupID):
     tmp_str = ''
     try:
         tmp_str = (
-            '完成回報的號碼有:\n'
+            '已完成回報學號:\n'
             +str([number for number in sorted(reportData[groupID].keys())]).strip('[]')
         )
     except BaseException as err:
-        tmp_str = '錯誤原因: '+str(err)
+        tmp_str = 'catch error exception: '+str(err)
     return tmp_str
 
 def msg_output(groupID):
@@ -115,17 +105,17 @@ def msg_output(groupID):
         for data in [reportData[groupID][number] for number in sorted(reportData[groupID].keys())]:
             tmp_str = tmp_str + data +'\n\n'      
     except BaseException as err:
-        tmp_str = '錯誤原因: '+str(err)
+        tmp_str = 'catch error exception: '+str(err)
     else:
         reportData[groupID].clear()
     return tmp_str
 def msg_format():
-    tmp_str = '姓名：\n學號：\n手機：\n地點：\n收假方式：'
+    tmp_str = '姓名：\n學號：\n手機：\n體溫：\n狀況：'
     return tmp_str
     
 def msg_clear(groupID):
     reportData[groupID].clear()
-    tmp_str = '資料已重置!'
+    tmp_str = '資料已清空'
     return tmp_str
     
 # 處理訊息
@@ -135,7 +125,7 @@ def handle_message(event):
     try:
         groupID = event.source.group_id
     except: # 此機器人設計給群組回報，單兵不可直接一對一回報給機器人
-        message = TextSendMessage(text='我只接收群組內訊息，請先把我邀請到群組!')
+        message = TextSendMessage(text='請直接把我邀進入班群再回報')
         line_bot_api.reply_message(event.reply_token, message)
     else:
         userID = event.source.user_id
@@ -154,19 +144,19 @@ def handle_message(event):
 
         if '姓名' in receivedmsg and '學號' in receivedmsg and '手機' in receivedmsg:
             LineMessage = msg_report(receivedmsg,groupID)
-        elif '自訂回報' in receivedmsg[:4]:
-            LineMessage = msg_manual_report(receivedmsg,groupID,userName)
         elif '使用說明' in receivedmsg and len(receivedmsg)==4:
             LineMessage = msg_readme()        
-        elif '回報統計' in receivedmsg and len(receivedmsg)==4:
+        elif '已報' in receivedmsg and len(receivedmsg)==2:
             LineMessage = msg_cnt(groupID)
         elif '格式' in receivedmsg and len(receivedmsg)==2:
             LineMessage = msg_format()
-        elif '輸出回報' in receivedmsg and len(receivedmsg)==4:
+        elif '輸出' in receivedmsg and len(receivedmsg)==2:
             LineMessage = msg_output(groupID)
         # for Error Debug, Empty all data -Garrett, 2021.01.27        
         elif '清空' in receivedmsg and len(receivedmsg)==2:
             LineMessage = msg_clear(groupID)
+        #elif '自訂回報' in receivedmsg[:4]:
+        #    LineMessage = msg_manual_report(receivedmsg,groupID,userName)
             
         if LineMessage :
             message = TextSendMessage(text=LineMessage)
