@@ -111,7 +111,7 @@ def msg_output(groupID):
             tmp_str = tmp_str + '謝謝班長!'
     except BaseException as err:
         tmp_str = 'catch error exception: '+str(err)
-    else:
+    #else:
         #reportData[groupID].clear()
     return tmp_str
 def msg_format():
