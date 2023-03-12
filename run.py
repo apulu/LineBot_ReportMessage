@@ -60,31 +60,22 @@ def msg_report(user_msg, groupID):
     else:
         #reportData[groupID][ID] = user_msg
         reportData[groupID][ID] = user_msg
-        tmp_str = str(ID)+'號回報成功\n如需更動回報資料，再回報一次即可。'  
+        tmp_str = str(ID)+'號回報成功\n如需更動，再回報一次即可。'  
     return tmp_str        
         
 
 def msg_readme():
     tmp_str = (
-        '回報格式\n'
-        '----------\n'
-        '姓名：\n'
-        '學號：\n'
-        '手機：\n'
-        '體溫：\n'
-        '狀況：\n'
-        '----------\n'
-        '\n'
-        '小助手指令:\n' 
+        '小助手指令如下:\n' 
         '----------\n'   
         '•格式\n'
-        '->輸出範例格式\n'
+        '  輸出範例格式\n'
         '•已報\n'
-        '->列出已回報人員學號\n'
+        '  列出已回報人員學號\n'
         '•輸出\n'
-        '->貼出所有已回報紀錄\n'
+        '  貼出所有已回報紀錄\n'
         '•清空\n'
-        '->手動清空所有回報紀錄\n'
+        '  手動清空所有回報紀錄\n'
         '----------\n' 
     )
     return tmp_str
