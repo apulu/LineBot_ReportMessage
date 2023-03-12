@@ -102,7 +102,7 @@ def msg_cnt(groupID):
 
 def msg_output(groupID):
     try:
-          tmp_str = '報告班長!\n'
+          tmp_str = '報告班長!\n\n'
           for data in [reportData[groupID][number] for number in sorted(reportData[groupID].keys())]:
               tmp_str = tmp_str + data +'\n\n'      
           tmp_str = tmp_str + '謝謝班長!'
