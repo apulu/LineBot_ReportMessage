@@ -102,13 +102,10 @@ def msg_cnt(groupID):
 
 def msg_output(groupID):
     try:
-        if not len(reportData) == 0 :
-            tmp_str = '目前無回報資料'
-        else:
-            tmp_str = '報告班長!\n'
-            for data in [reportData[groupID][number] for number in sorted(reportData[groupID].keys())]:
-                tmp_str = tmp_str + data +'\n\n'      
-            tmp_str = tmp_str + '謝謝班長!'
+          tmp_str = '報告班長!\n'
+          for data in [reportData[groupID][number] for number in sorted(reportData[groupID].keys())]:
+              tmp_str = tmp_str + data +'\n\n'      
+          tmp_str = tmp_str + '謝謝班長!'
     except BaseException as err:
         tmp_str = 'catch error exception: '+str(err)
     #else:
