@@ -60,7 +60,7 @@ def msg_report(user_msg, groupID):
     else:
         #reportData[groupID][ID] = user_msg
         reportData[groupID][ID] = user_msg
-        tmp_str = str(ID)+'號回報完成。'  
+        tmp_str = str(ID)+'號回報成功\n如需更動回報資料，再回報一次即可。'  
     return tmp_str        
         
 
@@ -75,16 +75,16 @@ def msg_readme():
         '狀況：\n'
         '----------\n'
         '\n'
-        '可用指令:\n' 
+        '小助手指令:\n' 
         '----------\n'   
         '•格式\n'
-        '->格式範例。\n'
+        '->輸出範例格式\n'
         '•已報\n'
-        '->列出已回報人員學號。\n'
+        '->列出已回報人員學號\n'
         '•輸出\n'
-        '->貼出所有已回報紀錄，並清空回報紀錄。\n'
+        '->貼出所有已回報紀錄\n'
         '•清空\n'
-        '->可手動清空Data。\n'
+        '->手動清空所有回報紀錄\n'
         '----------\n' 
     )
     return tmp_str
@@ -93,7 +93,7 @@ def msg_cnt(groupID):
     tmp_str = ''
     try:
         tmp_str = (
-            '已完成回報學號:\n'
+            '已完成回報學號如下:\n'
             +str([number for number in sorted(reportData[groupID].keys())]).strip('[]')
         )
     except BaseException as err:
@@ -102,14 +102,17 @@ def msg_cnt(groupID):
 
 def msg_output(groupID):
     try:
-        tmp_str = '報告班長!\n'
-        for data in [reportData[groupID][number] for number in sorted(reportData[groupID].keys())]:
-            tmp_str = tmp_str + data +'\n\n'      
-        tmp_str = tmp_str + '謝謝班長!'
+        if not len(reportData) == 0 :
+            tmp_str = '目前無回報資料'
+        else:
+            tmp_str = '報告班長!\n'
+            for data in [reportData[groupID][number] for number in sorted(reportData[groupID].keys())]:
+                tmp_str = tmp_str + data +'\n\n'      
+            tmp_str = tmp_str + '謝謝班長!'
     except BaseException as err:
         tmp_str = 'catch error exception: '+str(err)
     else:
-        reportData[groupID].clear()
+        #reportData[groupID].clear()
     return tmp_str
 def msg_format():
     tmp_str = '姓名：\n學號：\n手機：\n體溫：\n狀況：'
@@ -127,7 +130,7 @@ def handle_message(event):
     try:
         groupID = event.source.group_id
     except: # 此機器人設計給群組回報，單兵不可直接一對一回報給機器人
-        message = TextSendMessage(text='請直接把我邀進入班群再回報')
+        message = TextSendMessage(text='請直接把我拉進班群再回報')
         line_bot_api.reply_message(event.reply_token, message)
     else:
         userID = event.source.user_id
