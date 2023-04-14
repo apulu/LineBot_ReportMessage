@@ -108,7 +108,11 @@ def msg_format():
     
 def msg_clear(groupID):
     reportData[groupID].clear()
-    tmp_str = '清空個屁啊胖子'
+    if(random.randint(0,1))
+        tmp_str = '清空個屁啊胖子'
+    else
+        tmp_str = '資料已清空'
+        
     return tmp_str
     
 # 處理訊息
