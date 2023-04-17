@@ -108,9 +108,13 @@ def msg_format():
     
 def msg_clear(groupID):
     reportData[groupID].clear()
-    tmp_str = '清空了哦胖子'
+    tmp_str = '資料已清空'
     return tmp_str
     
+def msg_model(groupID):
+    tmp_str = '胖子😘'
+    return tmp_str
+
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -148,8 +152,8 @@ def handle_message(event):
         # for Error Debug, Empty all data -Garrett, 2021.01.27        
         elif '清空' in receivedmsg and len(receivedmsg)==2:
             LineMessage = msg_clear(groupID)
-        #elif '自訂回報' in receivedmsg[:4]:
-        #    LineMessage = msg_manual_report(receivedmsg,groupID,userName)
+        elif '瑋勛' in receivedmsg:
+            LineMessage = msg_model(groupID)
             
         if LineMessage :
             message = TextSendMessage(text=LineMessage)
