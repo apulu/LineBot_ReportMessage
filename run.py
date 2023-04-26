@@ -112,7 +112,7 @@ def msg_clear(groupID):
     return tmp_str
     
 def msg_model(groupID):
-    tmp_str = '胖子😘'
+    tmp_str = '一言不合就吃六主菜😋'
     return tmp_str
 
 # 處理訊息
