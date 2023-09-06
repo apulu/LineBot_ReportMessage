@@ -112,7 +112,7 @@ def msg_clear(groupID):
     return tmp_str
     
 def msg_model(groupID):
-    tmp_str = '你們到底想怎樣直接說吧'
+    tmp_str = '肥肚肚麵筋'
     return tmp_str
 
 # 處理訊息
@@ -152,8 +152,8 @@ def handle_message(event):
         # for Error Debug, Empty all data -Garrett, 2021.01.27        
         elif '清空' in receivedmsg and len(receivedmsg)==2:
             LineMessage = msg_clear(groupID)
-        #elif '瑋勛' in receivedmsg:
-        #    LineMessage = msg_model(groupID)
+        elif '瑋勛' in receivedmsg:
+            LineMessage = msg_model(groupID)
             
         if LineMessage :
             message = TextSendMessage(text=LineMessage)
